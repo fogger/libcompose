@@ -533,6 +533,10 @@ func (p *Project) GetServiceConfig(name string) (*config.ServiceConfig, bool) {
 	return p.ServiceConfigs.Get(name)
 }
 
+func (p *Project) RemoveOrphans(ctx context.Context) error {
+	return p.runtime.RemoveOrphans(ctx, p.Name, p.ServiceConfigs)
+}
+
 // IsNamedVolume returns whether the specified volume (string) is a named volume or not.
 func IsNamedVolume(volume string) bool {
 	return !strings.HasPrefix(volume, ".") && !strings.HasPrefix(volume, "/") && !strings.HasPrefix(volume, "~")

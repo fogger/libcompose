@@ -1,6 +1,8 @@
 package docker
 
 import (
+	"fmt"
+
 	"golang.org/x/net/context"
 
 	"github.com/Sirupsen/logrus"
@@ -78,7 +80,7 @@ type Project struct {
 func (p *Project) RemoveOrphans(ctx context.Context, projectName string, serviceConfigs *config.ServiceConfigs) error {
 	client := p.clientFactory.Create(nil)
 	filter := filters.NewArgs()
-	filter.Add("label", labels.PROJECT.EqString(projectName))
+	filter.Add("label", fmt.Sprintf("%s=%s", labels.PROJECT, projectName))
 	containers, err := client.ContainerList(ctx, types.ContainerListOptions{
 		Filter: filter,
 	})
